@@ -1,0 +1,155 @@
+# Sensor data to spawn in Carla.
+sensors: {
+  gps: [
+    {
+      frame_id: "ego/gps_link",
+      topic: "gps/fix",
+      params:
+      {
+        noise_alt_bias: 0,   # default: 0
+        noise_alt_stddev: 0, # default: 0
+        noise_lat_bias: 0,   # default: 0
+        noise_lat_stddev: 0, # default: 0
+        noise_lon_bias: 0,   # default: 0
+        noise_lon_stddev: 0, # default: 0
+        noise_seed: 0,       # default: 0
+        sensor_tick: 0       # default: 0
+      }
+    }
+  ],
+  imu: [
+    {
+      frame_id: "ego/imu_link",
+      topic: "imu/data",
+      params:
+      {
+        noise_accel_stddev_x: 0, # default: 0
+        noise_accel_stddev_y: 0, # default: 0
+        noise_accel_stddev_z: 0, # default: 0
+        noise_gyro_bias_x: 0,    # default: 0
+        noise_gyro_bias_y: 0,    # default: 0
+        noise_gyro_bias_z: 0,    # default: 0
+        noise_gyro_stddev_x: 0,  # default: 0
+        noise_gyro_stddev_y: 0,  # default: 0
+        noise_gyro_stddev_z: 0,  # default: 0
+        noise_seed: 0,           # default: 0
+        sensor_tick: 0           # default: 0
+      }
+    }
+  ],
+  rgb_camera: [
+    {
+      frame_id: "ego/view_camera_link",
+      topic: "rgb_view",
+      params:
+      {
+        bloom_intensity: 0.675,     # default: 0.675
+        fov: 90.0,                  # default: 90.0
+        fstop: 1.4,                 # default: 1.4
+        image_size_x: 800,          # default: 800
+        image_size_y: 600,          # default: 600
+        iso: 100.0,                 # default: 100.0
+        gamma: 2.2,                 # default: 2.2
+        lens_flare_intensity: 0.1,  # default: 0.1
+        sensor_tick: 0.0,           # default: 0.0
+        shutter_speed: 200.0        # default: 200.0
+      }
+    }
+  ]
+  # ,
+  # semantic_lidar: [
+  #   {
+  #     frame_id: "ego/semantic_lidar_link",
+  #     topic: "semantic_lidar",
+  #     params:
+  #     {
+  #       channels: 64,              # default: 32
+  #       range: 100.0,              # default: 10.0
+  #       points_per_second: 1200000, # default: 56000
+  #       rotation_frequency: 60,    # default: 10.0
+  #       upper_fov: 2.0,            # default: 10.0
+  #       lower_fov: -26.8,          # default: -30.0
+  #       horizontal_fov: 360.0,     # default: 360.0
+  #       sensor_tick: 0.0           # default: 0.0
+  #     }
+  #   }
+  # ]
+  # ,
+  # obu: [
+  #   {
+  #     frame_id: "ego/obu_link",
+  #     topic: "vx2_msgs",
+  #     params:
+  #     {
+  #       gen_cam_min: 0.1,           # default: 0.1
+  #       gen_cam_max: 1.0,           # default: 1.0
+  #       fixed_rate: false,          # default: false
+  #       noise_vel_stddev_x: 0.0,    # default: 0.0
+  #       noise_accel_stddev_x: 0.0,  # default: 0.0
+  #       noise_accel_stddev_y: 0.0,  # default: 0.0
+  #       noise_accel_stddev_z: 0.0,  # default: 0.0
+  #       noise_yawrate_bias: 0.0,    # default: 0.0
+  #       noise_yawrate_stddev: 0.0,  # default: 0.0
+  #       noise_alt_bias: 0.0,        # default: 0.0
+  #       noise_alt_stddev: 0.0,      # default: 0.0
+  #       noise_lat_bias: 0.0,        # default: 0.0
+  #       noise_lat_stddev: 0.0,      # default: 0.0
+  #       noise_lon_bias: 0.0,        # default: 0.0
+  #       noise_lon_stddev: 0.0,      # default: 0.0
+  #       noise_head_bias: 0.0,       # default: 0.0
+  #       noise_head_stddev: 0.0,     # default: 0.0
+  #     }
+  #   }
+  # ]
+  # ,
+  # semantic_camera: [
+  #   {
+  #     frame_id: "ego/front_semantic_link",
+  #     topic: "front_semantic",
+  #     params:
+  #     {
+  #       fov: 108.0,                 # default: 90.0
+  #       image_size_x: 800,          # default: 800
+  #       image_size_y: 600,          # default: 600
+  #       sensor_tick: 0.0            # default: 0.0
+  #     }
+  #   }
+  # ]
+  # ,
+  # lidar: [
+  #   {
+  #     frame_id: "ego/lidar64_link",
+  #     topic: "lidar64/points",
+  #     params:
+  #     {
+  #       channels: 64,                         # default: 32
+  #       range: 30.0,                         # default: 10.0
+  #       points_per_second: 1200000,            # default: 56000
+  #       rotation_frequency: 60,               # default: 10.0
+  #       upper_fov: 10.0,                      # default: 10.0
+  #       lower_fov: -30.0,                     # default: -30.0
+  #       horizontal_fov: 360.0,                # default: 360.0
+  #       atmosphere_attenuation_rate: 0.004,   # default: 0.004 
+  #       dropoff_general_rate: 0.45,           # default: 0.45
+  #       dropoff_intensity_limit: 0.8,         # default: 0.8
+  #       dropoff_zero_intensity: 0.4,          # default: 0.4 
+  #       sensor_tick: 0.0,                     # default: 0.0
+  #       noise_stddev: 0.01                    # default: 0.0
+  #     }
+  #   }
+  # ]
+  # ,
+  # radar: [
+  #   {
+  #     frame_id: "ego/radar_link",
+  #     topic: "radar/data",
+  #     params:
+  #     {
+  #       horizontal_fov: 35,        # default: 30
+  #       points_per_second: 1500,   # default: 1500
+  #       range: 100,                # default: 100
+  #       sensor_tick: 0,            # default: 0
+  #       vertical_fov: 20           # default: 30
+  #     }
+  #   }
+}

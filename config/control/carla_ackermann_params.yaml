@@ -1,0 +1,28 @@
+/**/carla_ackermann_node:
+  ros__parameters:
+    cmd_timeout: 5.0 # Time to drop new messages since no new ackermann msgs are received. (sec)
+    pub_frequency: 30.0 # Frequency of pusblishing new commands for the controller output. (rate)
+    steer_limit: 1.22 # Max steering to take into account for the controller output. (rad)
+    speed_limit: 20.0 # Max speed to take into account for the controller output. (m/s)
+    max_throttle: 0.4 # Max throttle to output when controlling Vehicle in Carla. [0,1]
+    max_brake: 0.3 # Max brake to output when controlling Vehicle in Carla. [0,1]
+    accel_limit: 1.5 # Max acceleration to take into account for the controller output. (m/s)
+    steer_vel_limit: 1.0 # Max steering rate to take into account for the controller output. (rads/sec)
+    vehicle_max_steering_angle: 1.22 # Max physical steering angle for the vehicle model: 70. (rad)
+    controller_rate: 20.0 # Rate at which the PID controller updates for the vehicle speed control [0.05]. (rate)
+    speed_pid:
+      kp: 0.45
+      ki: 0.05
+      kd: 0.07
+      sample_time: 0.05
+      auto_mode: True
+      proportional_on_measurement: False
+    brake_pid:
+      kp: 0.25
+      ki: 0.03
+      kd: 0.0
+      sample_time: 0.05
+      auto_mode: True
+      proportional_on_measurement: False
+    brake_epsilon: 0.4
+    stop_epsilon: 0.05

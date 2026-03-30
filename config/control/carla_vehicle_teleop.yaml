@@ -1,0 +1,6 @@
+/**/carla_keyboard_control_node:
+  ros__parameters:
+    steer_teleop_limit: 1.22 # Steer teleop limit to clamp in the node.
+    speed_teleop_limit: 10.0 # Speed teleop limit to clamp in the node.
+    accel_teleop_limit: 1.5  # Acceleration limit for Ares wheels.
+    angle_vel_teleop_limit: 0.5 # Angular speed limit.
