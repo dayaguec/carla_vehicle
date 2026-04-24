@@ -14,6 +14,8 @@ from vehicle_interfaces.msg import VehicleControl
 
 from rcl_interfaces.msg import SetParametersResult
 
+from rclpy.executors import ExternalShutdownException
+
 class CarlaAckermannNode(Node):
   def __init__(self):
     super().__init__('carla_ackermann_node')
@@ -387,13 +389,11 @@ class CarlaAckermannNode(Node):
 
 def main(args=None):
   rclpy.init(args=args)
-
-  ackermann_controller_node = CarlaAckermannNode()
-
-  rclpy.spin(ackermann_controller_node)
-
-  ackermann_controller_node.destroy_node()
-  rclpy.shutdown()
+  try:
+    ackermann_controller_node = CarlaAckermannNode()
+    rclpy.spin(ackermann_controller_node)
+  except (KeyboardInterrupt, ExternalShutdownException):
+    pass
 
 if __name__ == '__main__':
   main()

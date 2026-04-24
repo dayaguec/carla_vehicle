@@ -178,9 +178,10 @@ class VehicleROSNode(Node):
       obu_frames, self._obu_topics, obu_parameters = [], [], []
       self.get_logger().warn("OBU configuration not found, OBU will not spawn!")
 
-    self.tf_buffer = Buffer()
-    self.tf_listener = TransformListener(
-      buffer=self.tf_buffer, node=self, spin_thread=True)
+    # @todo: change to StaticTransformListener once implemented (in humble)
+    tf_buffer = Buffer()
+    tf_listener = TransformListener(
+      buffer=tf_buffer, node=self, spin_thread=True)
 
     self._gps_tf, self._imu_tf, self._radar_tf, self._lidar_tf, self._sem_lidar_tf, self._rgb_camera_tf, self._sem_camera_tf, self._obu_tf = \
       [], [], [], [], [], [], [], []
@@ -191,7 +192,7 @@ class VehicleROSNode(Node):
     for trf in gps_frames:
       try:
         self.get_logger().info('Looking at tf: {} -> {}'.format(self._vehicle_base_footprint, trf))
-        self._gps_tf.append(self.tf_buffer.lookup_transform(
+        self._gps_tf.append(tf_buffer.lookup_transform(
           self._vehicle_base_footprint,
           trf,
           rclpy.time.Time(), Duration(seconds=3)).transform)
@@ -204,7 +205,7 @@ class VehicleROSNode(Node):
     for trf in imu_frames:
       try:
         self.get_logger().info('Looking at tf: {} -> {}'.format(self._vehicle_base_footprint, trf))
-        self._imu_tf.append(self.tf_buffer.lookup_transform(
+        self._imu_tf.append(tf_buffer.lookup_transform(
           self._vehicle_base_footprint,
           trf,
           rclpy.time.Time(), Duration(seconds=3)).transform)
@@ -217,7 +218,7 @@ class VehicleROSNode(Node):
     for trf in radar_frames:
       try:
         self.get_logger().info('Looking at tf: {} -> {}'.format(self._vehicle_base_footprint, trf))
-        self._radar_tf.append(self.tf_buffer.lookup_transform(
+        self._radar_tf.append(tf_buffer.lookup_transform(
           self._vehicle_base_footprint,
           trf,
           rclpy.time.Time(), Duration(seconds=3)).transform)
@@ -231,7 +232,7 @@ class VehicleROSNode(Node):
     for trf in lidar_frames:
       try:
         self.get_logger().info('Looking at tf: {} -> {}'.format(self._vehicle_base_footprint, trf))
-        self._lidar_tf.append(self.tf_buffer.lookup_transform(
+        self._lidar_tf.append(tf_buffer.lookup_transform(
           self._vehicle_base_footprint,
           trf,
           rclpy.time.Time(), Duration(seconds=3)).transform)
@@ -244,7 +245,7 @@ class VehicleROSNode(Node):
     for trf in sem_lidar_frames:
       try:
         self.get_logger().info('Looking at tf: {} -> {}'.format(self._vehicle_base_footprint, trf))
-        self._sem_lidar_tf.append(self.tf_buffer.lookup_transform(
+        self._sem_lidar_tf.append(tf_buffer.lookup_transform(
           self._vehicle_base_footprint,
           trf,
           rclpy.time.Time(), Duration(seconds=3)).transform)
@@ -257,7 +258,7 @@ class VehicleROSNode(Node):
     for trf in rgb_camera_frames:
       try:
         self.get_logger().info('Looking at tf: {} -> {}'.format(self._vehicle_base_footprint, trf))
-        self._rgb_camera_tf.append(self.tf_buffer.lookup_transform(
+        self._rgb_camera_tf.append(tf_buffer.lookup_transform(
           self._vehicle_base_footprint,
           trf,
           rclpy.time.Time(), Duration(seconds=3)).transform)
@@ -270,7 +271,7 @@ class VehicleROSNode(Node):
     for trf in sem_camera_frames:
       try:
         self.get_logger().info('Looking at tf: {} -> {}'.format(self._vehicle_base_footprint, trf))
-        self._sem_camera_tf.append(self.tf_buffer.lookup_transform(
+        self._sem_camera_tf.append(tf_buffer.lookup_transform(
           self._vehicle_base_footprint,
           trf,
           rclpy.time.Time(), Duration(seconds=3)).transform)
@@ -283,7 +284,7 @@ class VehicleROSNode(Node):
     for trf in obu_frames:
       try:
         self.get_logger().info('Looking at tf: {} -> {}'.format(self._vehicle_base_footprint, trf))
-        self._obu_tf.append(self.tf_buffer.lookup_transform(
+        self._obu_tf.append(tf_buffer.lookup_transform(
           self._vehicle_base_footprint,
           trf,
           rclpy.time.Time(), Duration(seconds=3)).transform)
@@ -293,6 +294,12 @@ class VehicleROSNode(Node):
         self.get_logger().warn('Could not transform {} to {}: {}'.format(
           self._vehicle_base_footprint, trf, ex))
         self._obu_tf.append(None)
+
+    # Stop listening to transforms and remove references to garbage collect
+    tf_listener.executor.shutdown()
+    tf_listener.dedicated_listener_thread.join()
+    tf_listener = None
+    tf_buffer = None
 
     # Parse sensors tfs and parameters
     gps_tf_carla, gps_sensor_params = [], []
